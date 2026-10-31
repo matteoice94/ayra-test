@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ayra</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="dot" id="status-dot"></span>
+    <span class="title">Ayra</span>
+    <span class="model" id="model-name"></span>
+    <button id="reset-btn" class="reset-btn" title="Nuova conversazione">↻</button>
+  </header>
+
+  <main id="messages" class="messages" aria-live="polite"></main>
+
+  <form id="composer" class="composer">
+    <textarea id="input" rows="1" placeholder="Scrivi un messaggio… (Invio = invia, Shift+Invio = a capo)" autocomplete="off"></textarea>
+    <button id="send" type="submit" aria-label="Invia">➤</button>
+  </form>
+
+  <dialog id="confirm" class="confirm">
+    <form method="dialog">
+      <h3>Conferma azione</h3>
+      <p id="confirm-desc" class="confirm-desc"></p>
+      <pre id="confirm-args" class="confirm-args"></pre>
+      <div class="confirm-actions">
+        <button value="deny" class="btn deny">Annulla</button>
+        <button value="allow" class="btn allow" autofocus>Consenti</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

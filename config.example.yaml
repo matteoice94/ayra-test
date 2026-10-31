@@ -1,0 +1,75 @@
+# Copia questo file in config.yaml e adatta i valori.
+# config.yaml è ignorato da git e non va condiviso.
+# Le variabili ${VAR} vengono espanse; gli override espliciti sono:
+#   AYRA_LLM_BASE_URL, AYRA_LLM_MODEL, AYRA_LLM_API_KEY,
+#   AYRA_LLM_SUPPORTS_TOOLS, AYRA_PORT, AYRA_MAX_STEPS, AYRA_CONFIG
+
+llm:
+  # Qualsiasi endpoint OpenAI-compatible. Se manca, /chat/completions viene aggiunto.
+  base_url: "http://localhost:11434/v1"
+  model: "qwen2.5:3b"
+  api_key: ""            # opzionale: Ollama la ignora, i provider cloud la richiedono
+  supports_tools: true   # false = il modello riceve le istruzioni JSON nel system prompt
+  timeout: 120           # secondi per singola richiesta
+
+server:
+  port: 8765
+
+agent:
+  max_steps: 6           # massimo numero di giri LLM -> tool -> LLM
+  history_messages: 20   # messaggi di storia tenuti in memoria
+  system_prompt: |
+    Sei Ayra, un assistente locale conciso e utile su Windows.
+    Rispondi nella lingua dell'utente, in modo breve e concreto.
+    Usa gli strumenti disponibili quando ti serve un'informazione reale dal computer.
+    Non inventare mai il contenuto di una finestra o di un elenco: se un tool fallisse, dillo.
+    read_window_text legge il testo visibile; get_ui_tree elenca i controlli; describe_screen descrive immagini/grafici.
+    Quando l'utente chiede di leggere, vedere, elencare o controllare qualcosa sul PC, chiama subito lo strumento giusto.
+
+launch:
+  # App sempre permesse senza conferma (nome o percorso). Vengono comunque loggate.
+  allowlist: []
+  # Esempi: ["notepad", "calc", "C:\\Windows\\System32\\mspaint.exe"]
+
+perception:
+  self_title: "Ayra"
+  max_nodes: 150
+  max_depth: 8
+  max_chars: 4000
+  uia_timeout: 3.0
+  ocr_min_chars: 40
+  blocklist_processes: ["keepass.exe", "keepassxc.exe", "bitwarden.exe", "1password.exe"]
+  blocklist_titles: ["password manager"]
+
+vision:
+  enabled: false
+  base_url: "http://localhost:11434/v1"
+  model: ""
+  api_key: ""
+  timeout: 120
+  max_side: 1280
+
+# ---------------------------------------------------------------------------
+# Provider di esempio. Decommenta un blocco e cancella/sostituisci il blocco llm sopra.
+# ---------------------------------------------------------------------------
+
+# --- Ollama (locale, gratis, nessuna API key) ---
+# llm:
+#   base_url: "http://localhost:11434/v1"
+#   model: "qwen2.5:3b"
+#   api_key: "ollama"
+#   supports_tools: true
+
+# --- Gemini (free tier, endpoint OpenAI-compatible) ---
+# llm:
+#   base_url: "https://generativelanguage.googleapis.com/v1beta/openai"
+#   model: "gemini-2.0-flash"
+#   api_key: "${GEMINI_API_KEY}"
+#   supports_tools: true
+
+# --- OpenRouter (modelli ":free") ---
+# llm:
+#   base_url: "https://openrouter.ai/api/v1"
+#   model: "meta-llama/llama-3.3-70b-instruct:free"
+#   api_key: "${OPENROUTER_API_KEY}"
+#   supports_tools: true

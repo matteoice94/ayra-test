@@ -1,0 +1,169 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --panel-2: #1f2330;
+  --border: #2a2f3d;
+  --text: #e6e8ee;
+  --muted: #9aa3b2;
+  --accent: #7aa2f7;
+  --accent-soft: rgba(122, 162, 247, 0.14);
+  --danger: #f7768e;
+  --success: #9ece6a;
+  --radius: 10px;
+  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Cascadia Mono", "Consolas", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: background 0.2s;
+}
+.dot.connected { background: var(--success); }
+.dot.connecting { background: #e0af68; }
+
+.title { font-weight: 600; }
+.model { color: var(--muted); font-size: 12px; margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reset-btn { border: 1px solid var(--border); background: var(--panel-2); color: var(--text); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.msg {
+  max-width: 92%;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.msg.user { align-self: flex-end; background: var(--accent-soft); border: 1px solid var(--accent); }
+.msg.assistant { align-self: flex-start; background: var(--panel-2); border: 1px solid var(--border); }
+.msg.system { align-self: center; color: var(--muted); font-size: 12px; background: transparent; border: 1px dashed var(--border); max-width: 100%; }
+.msg.error { border-color: var(--danger); color: var(--danger); background: rgba(247, 118, 142, 0.08); }
+
+.tool-card {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 92%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 12px;
+}
+.tool-card summary {
+  cursor: pointer;
+  padding: 6px 10px;
+  color: var(--muted);
+  user-select: none;
+}
+.tool-card summary:hover { color: var(--text); }
+.tool-card .tool-body { padding: 0 10px 8px; }
+.tool-card pre {
+  margin: 4px 0;
+  padding: 6px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+.tool-card .tool-result.ok { color: var(--success); }
+.tool-card .tool-result.fail { color: var(--danger); }
+
+.composer {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.composer textarea {
+  flex: 1;
+  resize: none;
+  min-height: 36px;
+  max-height: 140px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  outline: none;
+}
+.composer textarea:focus { border-color: var(--accent); }
+.composer button {
+  width: 40px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #0f1115;
+  font-size: 16px;
+  cursor: pointer;
+}
+.composer button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.confirm {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  padding: 0;
+  max-width: 92vw;
+}
+.confirm::backdrop { background: rgba(0,0,0,0.5); }
+.confirm form { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.confirm h3 { margin: 0; }
+.confirm-desc { margin: 0; }
+.confirm-args { max-height: 160px; }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.btn { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); cursor: pointer; }
+.btn.allow { background: var(--accent); color: #0f1115; border-color: var(--accent); }
+.btn.deny { color: var(--danger); }
+
+@media (max-width: 420px) {
+  body { max-width: 100%; }
+  .msg, .tool-card { max-width: 100%; }
+  .topbar { padding: 8px 10px; }
+}
